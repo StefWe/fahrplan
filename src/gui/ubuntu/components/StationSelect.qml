@@ -35,6 +35,8 @@ Page {
 
     property bool showFavorites: true
 
+    onVisibleChanged: if (visible) search.forceActiveFocus()
+
     head.actions: [
         Action {
             iconName: stationSelect.showFavorites ? "starred" : "non-starred"
