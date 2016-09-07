@@ -96,7 +96,7 @@ void ParserAbstract::cancelRequest()
     }
 }
 
-void ParserAbstract::sendHttpRequest(QUrl url, QByteArray data)
+void ParserAbstract::sendHttpRequest(QUrl url, QByteArray data, const QList<QPair<QByteArray,QByteArray> > &additionalHeaders)
 {
     QNetworkRequest request;
     request.setUrl(url);
@@ -107,6 +107,8 @@ void ParserAbstract::sendHttpRequest(QUrl url, QByteArray data)
     request.setRawHeader("User-Agent", userAgent.toAscii());
 #endif
     request.setRawHeader("Cache-Control", "no-cache");
+    for (QList<QPair<QByteArray,QByteArray> >::ConstIterator it = additionalHeaders.constBegin(); it != additionalHeaders.constEnd(); ++it)
+        request.setRawHeader(it->first, it->second);
     if (!acceptEncoding.isEmpty()) {
         request.setRawHeader("Accept-Encoding", acceptEncoding);
     }
@@ -128,14 +130,16 @@ QVariantMap ParserAbstract::parseJson(const QByteArray &json) const
 #ifdef BUILD_FOR_QT5
     doc = QJsonDocument::fromJson(json).toVariant().toMap();
 #else
-    QString tmp(json);
-    // Validation of JSON according to RFC4627, section 6
+    QString utf8(QString::fromUtf8(json));
+
+    // Validation of JSON according to RFC 4627, section 6
+    QString tmp(utf8);
     if (tmp.replace(QRegExp("\"(\\\\.|[^\"\\\\])*\""), "")
            .contains(QRegExp("[^,:{}\\[\\]0-9.\\-+Eaeflnr-u \\n\\r\\t]")))
         return doc;
 
     QScriptEngine *engine = new QScriptEngine();
-    doc = engine->evaluate("(" + json + ")").toVariant().toMap();
+    doc = engine->evaluate("(" + utf8 + ")").toVariant().toMap();
     delete engine;
 #endif
 

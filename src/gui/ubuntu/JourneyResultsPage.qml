@@ -20,199 +20,165 @@
 import Fahrplan 1.0
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import "components"
 
 Page {
     id: searchResultsPage
 
-    title: qsTr("Journey alternatives")
-    flickable: null
+    header: PageHeader {
+        title: qsTr("Journey alternatives")
+        flickable: listView
+        leadingActionBar.actions: Action {
+            iconName: "back"
+            onTriggered: {
+                mainStack.pop();
+                fahrplanBackend.parser.cancelRequest();
+            }
+        }
+    }
 
-    property alias searchResults: searchResults
     property string journeyStationsTitleText
     property string journeryDateTitleText
     property alias searchIndicatorVisible: searchIndicator.visible
 
-    head.backAction: Action {
-        iconName: "back"
-        onTriggered: {
-            mainStack.pop();
-            fahrplanBackend.parser.cancelRequest();
-        }
+    ActivityIndicator {
+        id: searchIndicator
+        anchors.centerIn: parent
+        running: true
+        visible: false
     }
 
-    Item {
-        id: searchResults
+    ListView {
+        id: listView
 
-        width:  parent.width
-        height: parent.height
+        anchors.fill: parent
+        delegate: journeyResultDelegate
+        model: journeyResultModel
+        visible: !searchIndicator.visible
 
-        ActivityIndicator {
-            id: searchIndicator
-            anchors {
-                top: parent.top
-                topMargin: units.gu(5)
-                horizontalCenter: parent.horizontalCenter
-            }
-            running: true
-            visible: false
-        }
+        header: Column {
+            id: headerColumn
+            width: parent.width
+            spacing: units.gu(1)
+            Item {
+                id: titleBar
 
-        ListView {
-            id: listView
+                height: journeyStations.height + journeyDate.height + units.gu(2)
+                anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
 
-            anchors.fill: parent
-            clip: true
-            delegate: journeyResultDelegate
-            model: journeyResultModel
-            visible: !searchIndicator.visible
-
-            header: Column {
-                id: headerColumn
-                width: parent.width
-                spacing: units.gu(1)
-                Item {
-                    id: titleBar
-
-                    height: journeyStations.height + journeyDate.height + units.gu(2)
-                    anchors { left: parent.left; right: parent.right; margins: units.gu(2) }
-
-                    Label {
-                        id: journeyStations
-                        text: journeyStationsTitleText
-                        fontSize: "large"
-                        wrapMode: Text.WordWrap
-                        width: parent.width
-                        anchors { top: parent.top; topMargin: units.gu(1) }
-                    }
-
-                    Label {
-                        id: journeyDate
-                        color: "Grey"
-                        fontSize: "small"
-                        text: journeryDateTitleText
-                        width: parent.width
-                        anchors { top: journeyStations.bottom }
-                    }
-                }
-
-                Rectangle {
-                    width: parent.width
-                    height: headerLabel.implicitHeight + units.gu (3)
-                    color: mouseArea.pressed ? "DarkGrey" : "#F5F5F5"
-                    Label {
-                        id: headerLabel
-                        width: parent.width
-                        font.bold: true
-                        text: qsTr("↥ View earlier options")
-                        horizontalAlignment: Text.AlignHCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    MouseArea {
-                        id: mouseArea
-                        anchors.fill: parent
-                        onClicked: {
-                            searchIndicatorVisible = true
-                            fahrplanBackend.parser.searchJourneyEarlier()
-                        }
-                    }
-                }
-            }
-
-            footer: Rectangle {
-                width: parent.width
-                height: footerLabel.implicitHeight + units.gu (3)
-                color: footerMouseArea.pressed ? "DarkGrey" : "#F5F5F5"
                 Label {
-                    id: footerLabel
+                    id: journeyStations
+                    text: journeyStationsTitleText
+                    textSize: Label.Large
+                    wrapMode: Text.WordWrap
+                    width: parent.width
+                    anchors { top: parent.top; topMargin: units.gu(1) }
+                }
+
+                Label {
+                    id: journeyDate
+                    color: "Grey"
+                    textSize: Label.Small
+                    text: journeryDateTitleText
+                    width: parent.width
+                    anchors { top: journeyStations.bottom }
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                height: headerLabel.implicitHeight + units.gu (3)
+                color: mouseArea.pressed ? "DarkGrey" : "#F5F5F5"
+                Label {
+                    id: headerLabel
                     width: parent.width
                     font.bold: true
-                    text: qsTr("↧ View later options")
+                    text: qsTr("↥ View earlier options")
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 MouseArea {
-                    id: footerMouseArea
+                    id: mouseArea
                     anchors.fill: parent
                     onClicked: {
                         searchIndicatorVisible = true
-                        fahrplanBackend.parser.searchJourneyLater()
+                        fahrplanBackend.parser.searchJourneyEarlier()
                     }
                 }
             }
         }
 
-        Scrollbar {
-            flickableItem: listView
+        footer: Rectangle {
+            width: parent.width
+            height: footerLabel.implicitHeight + units.gu (3)
+            color: footerMouseArea.pressed ? "DarkGrey" : "#F5F5F5"
+            Label {
+                id: footerLabel
+                width: parent.width
+                font.bold: true
+                text: qsTr("↧ View later options")
+                horizontalAlignment: Text.AlignHCenter
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            MouseArea {
+                id: footerMouseArea
+                anchors.fill: parent
+                onClicked: {
+                    searchIndicatorVisible = true
+                    fahrplanBackend.parser.searchJourneyLater()
+                }
+            }
         }
+    }
+
+    Scrollbar {
+        flickableItem: listView
     }
 
     Component {
         id: journeyResultDelegate
 
-        Item {
+        ListItem {
             id: delegateItem
 
-            width: listView.width
-            height: detailsColumn.height + units.gu(2)
+            height: detailsLayout.height + lbl_miscInfo.height - units.gu(1)
+            divider.visible: false
+            color: itemNum % 2 ? "#F5F5F5" : "#ECECEC"
+            highlightColor: "DarkGrey"
 
-            Rectangle {
-                id: background
-                anchors.fill: parent
-                color: mouseArea.pressed ? "DarkGrey" : itemNum % 2 ? "#F5F5F5" : "#ECECEC"
+            ListItemLayout {
+                id: detailsLayout
+
+                title.text: departureTime + " ↦ " + arrivalTime
+                title.font.bold: true
+                subtitle.text: qsTr("Duration: %1 | Transfer: %2").arg(duration).arg(transfers)
+                summary.text: trainType
+                padding.top: units.gu(1)
             }
 
-            MouseArea {
-                id: mouseArea
-                anchors.fill: background
-                onClicked: {
-                    var component = Qt.createComponent("JourneyDetailsResultsPage.qml")
-                    mainStack.push(component,
-                                   {titleText: qsTr("Loading details"), subTitleText: qsTr("please wait..."), searchIndicatorVisible: true});
-                    fahrplanBackend.parser.getJourneyDetails(id);
+            Label {
+                id: lbl_miscInfo
+                width: parent.width
+                wrapMode: Text.WordWrap
+                visible: (miscInfo == "") ? false : true
+                height: visible ? implicitHeight : 0
+                text: miscInfo
+                textSize: Label.Small
+                color: UbuntuColors.red
+                font.italic: true
+                anchors {
+                    left: detailsLayout.left
+                    right: detailsLayout.right
+                    margins: units.gu(2)
+                    top: detailsLayout.bottom
+                    topMargin: units.gu(-2)
                 }
             }
 
-            Column {
-                id: detailsColumn
-
-                anchors { left: parent.left; right: parent.right; margins: units.gu(2); verticalCenter: parent.verticalCenter }
-
-                Label {
-                    id: lbl_time
-                    width: parent.width
-                    font.bold: true
-                    text: departureTime + " ↦ " + arrivalTime
-                }
-
-                Label {
-                    id: lbl_detail
-                    width: parent.width
-                    elide: Text.ElideRight
-                    fontSize: "x-small"
-                    color: "Grey"
-                    text: qsTr("Duration: %1 | Transfer: %2").arg(duration).arg(transfers)
-                }
-
-                Label {
-                    id: lbl_trainType
-                    width: parent.width
-                    elide: Text.ElideRight
-                    fontSize: "x-small"
-                    color: "Grey"
-                    text: trainType
-                }
-
-                Label {
-                    id: lbl_miscInfo
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    visible: (miscInfo == "") ? false : true
-                    text: miscInfo
-                    fontSize: "small"
-                    color: UbuntuColors.red
-                    font.italic: true
-                }
+            onClicked: {
+                var component = Qt.createComponent("JourneyDetailsResultsPage.qml")
+                mainStack.push(component,
+                               {titleText: qsTr("Loading details"), subTitleText: qsTr("please wait..."), searchIndicatorVisible: true});
+                fahrplanBackend.parser.getJourneyDetails(id);
             }
         }
     }

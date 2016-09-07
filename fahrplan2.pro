@@ -1,5 +1,5 @@
 # Define Version
-VERSION = 2.0.26
+VERSION = 2.0.28
 
 # Switch for jolla to separate harbour and openrepo version
 openrepos {
@@ -58,20 +58,22 @@ maemo5: CONFIG += mobility11
 
 TRANSLATIONS += \
     translations/fahrplan_ar.ts \
+    translations/fahrplan_ca.ts \
     translations/fahrplan_de.ts \
     translations/fahrplan_el.ts \
     translations/fahrplan_en.ts \
+    translations/fahrplan_es.ts \
     translations/fahrplan_fa_IR.ts \
-    translations/fahrplan_mk_MK.ts \
+    translations/fahrplan_fr.ts \
+    translations/fahrplan_hu.ts \
+    translations/fahrplan_nb.ts \
     translations/fahrplan_nl_NL.ts \
     translations/fahrplan_pl.ts \
     translations/fahrplan_ro_RO.ts \
     translations/fahrplan_ru.ts \
     translations/fahrplan_sl_SI.ts \
     translations/fahrplan_sv_SE.ts \
-    translations/fahrplan_tr.ts \
-    translations/fahrplan_uk.ts \
-    translations/fahrplan_zh.ts
+    translations/fahrplan_uk.ts
 CODECFORTR = UTF-8
 
 OTHER_FILES += \
@@ -120,7 +122,9 @@ HEADERS += \
     src/parser/parser_ninetwo.h \
     src/parser/parser_munich_efa.h \
     src/parser/parser_salzburg_efa.h \
-    src/parser/parser_resrobot.h
+    src/parser/parser_resrobot.h \
+    src/parser/parser_finland_matka.h \
+    src/models/backends.h
 SOURCES += src/main.cpp \
     src/parser/parser_hafasxml.cpp \
     src/parser/parser_abstract.cpp \
@@ -151,7 +155,11 @@ SOURCES += src/main.cpp \
     src/parser/parser_ninetwo.cpp \
     src/parser/parser_munich_efa.cpp \
     src/parser/parser_salzburg_efa.cpp \
-    src/parser/parser_resrobot.cpp
+    src/parser/parser_resrobot.cpp \
+    src/parser/parser_finland_matka.cpp \
+    src/models/backends.cpp
+
+LIBS += $$PWD/3rdparty/gauss-kruger-cpp/gausskruger.cpp
 
 # This hack is needed for lupdate to pick up texts from QML files
 translate_hack {
@@ -237,8 +245,6 @@ ubuntu: {
         qtc_packaging/ubuntu/rules \
         qtc_packaging/ubuntu/source/format
 
-    QMAKE_CXXFLAGS += -fPIC -fvisibility=hidden -fvisibility-inlines-hidden
-    QMAKE_LFLAGS += -pie -rdynamic
     DEFINES += BUILD_FOR_UBUNTU
 }
 
@@ -351,6 +357,10 @@ win32|unix:!simulator:!maemo5:!contains(MEEGO_EDITION,harmattan):!symbian:!exist
 
 symbian|simulator {
     RESOURCES += symbian_res.qrc
+
+    # Symbian does not like gauss-kruger as lib so we add it as sources too
+    SOURCES += $$PWD/3rdparty/gauss-kruger-cpp/gausskruger.cpp
+    HEADERS += $$PWD/3rdparty/gauss-kruger-cpp/gausskruger.h
 
     OTHER_FILES += \
         src/gui/symbian/main.qml \

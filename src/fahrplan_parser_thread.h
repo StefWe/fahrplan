@@ -39,6 +39,7 @@
 #include "parser/parser_munich_efa.h"
 #include "parser/parser_salzburg_efa.h"
 #include "parser/parser_resrobot.h"
+#include "parser/parser_finland_matka.h"
 
 class FahrplanParserThread : public QThread
 {
@@ -66,6 +67,7 @@ signals:
 
 public slots:
     void init(int parserIndex);
+    int getParserIndex();
 
     void getTimeTableForStation(const Station &currentStation, const Station &directionStation, const QDateTime &dateTime, ParserAbstract::Mode mode, int trainrestrictions);
     void findStationsByName(const QString &stationName);

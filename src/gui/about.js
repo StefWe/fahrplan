@@ -19,7 +19,7 @@
 
 .pragma library
 
-var copyright = "(C) 2008-2015 smurfy (maemo@smurfy.de)";
+var copyright = "(C) 2008-2016 smurfy (maemo@smurfy.de)";
 
 var license = "<p>This program is free software; you can redistribute it and/or " +
         "modify it under the terms of the GNU General Public License " +
@@ -37,16 +37,22 @@ var support = qsTr("<p>If fahrplan is not translated in your language, help us <
         "<p>If you encounter bugs or have feature requests visit the <a href=\"https://github.com/smurfy/fahrplan/issues\">Fahrplan issue tracker on GitHub</a>.</p>");
 
 var maintainers = ["Philipp Andreas (smurfy)", "Michael Zanetti (mzanetti)", "Oleksii Serdiuk (leppa)"];
-var codeContributors = ["gri", "lorenzph", "CaCO3", "hcm", "thp", "qwerty12", "qbast", "Thomas Fischer", "Oleksii Serdiuk (leppa)", "Nekhelesh Ramananthan (nik90)", "NightShift79", "pirast", "Michael Zanetti (mzanetti)", "shentok", "evansebire", "unsanded", "Morpog", "benni0815", "Erik Lundin"];
+var codeContributors = ["gri", "lorenzph", "CaCO3", "hcm", "thp", "qwerty12", "qbast", "Thomas Fischer", "Oleksii Serdiuk (leppa)", "Nekhelesh Ramananthan (nik90)", "NightShift79", "pirast", "Michael Zanetti (mzanetti)", "shentok", "evansebire", "unsanded", "Morpog", "benni0815", "Erik Lundin"].sort();
 var translators = [
-            "German - Philipp Andreas (smurfy), Florian Wittmann, DeadHorseRiding (Mee_Germany_Go)",
-            "Ukrainian - Oleksii Serdiuk (leppa)",
-            "Russian - Oleksii Serdiuk (leppa), Alexey (lewa)",
-            "Romanian - LaurB (laurbb)",
+            "Arabic - Sary AWAD (sary.1991)",
+            "Catalan - Felip Martí (FelipMarti)",
             "Dutch - Heimen Stoffels (Vistaus), Nathan Follens (pljmn)",
+            "French - Jordi",
+            "German - Philipp Andreas (smurfy), Florian Wittmann, DeadHorseRiding (Mee_Germany_Go)",
+            "Greek - Wasilis Mandratzis-Walz (beonex)",
+            "Hungarian - ViBE",
+            "Norwegian Bokmål - Ari Börde Kröyer (abkro)",
             "Persian - Ali Adineh (ali6007205)",
             "Polish - maurycy",
-            "Swedish - Erik Lundin",
+            "Romanian - LaurB (laurbb)",
+            "Russian - Oleksii Serdiuk (leppa), Alexey (lewa)",
             "Slovenian - Boštjan Štrumbelj (sponka), Matija Šuklje (hook)",
-            "Greek - Wasilis Mandratzis-Walz (beonex)"
+            "Spanish - César Enrique García (cquike)",
+            "Swedish - Erik Lundin",
+            "Ukrainian - Oleksii Serdiuk (leppa)",
         ];

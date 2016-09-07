@@ -1,6 +1,25 @@
 BlackBerry World ChangeLog
 ==========================
 
+2.0.28
+------
+
+- Fixes 9292ov.nl
+- Updated ResRobot API to v2
+- Updated translations
+ 
+2.0.27
+------
+
+- New service: matka.fi (Finland).
+- vasttrafik.se: Service was updated to version 2.
+- resrobot.se: Updates and fixes.
+- Services are now alphabetically sorted.
+- Selected train types are now saved.
+- Fix: Character encoding issues with some services (e.g., resrobot.se,
+  9292ov.nl) were fixed.
+
+
 2.0.26
 ------
 
