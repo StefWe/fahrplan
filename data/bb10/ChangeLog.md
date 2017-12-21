@@ -1,5 +1,20 @@
-BlackBerry World ChangeLog
+﻿BlackBerry World ChangeLog
 ==========================
+
+2.0.31
+------
+
+- Fix bahn.de API
+
+2.0.30
+------
+
+- Updated Västtrafik API
+
+2.0.29
+------
+
+- Updated matka.fi API
 
 2.0.28
 ------

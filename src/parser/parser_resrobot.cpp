@@ -28,6 +28,11 @@ ParserResRobot::ParserResRobot(QObject *parent) :
         journeyAPIKey(QLatin1String("c8436ea6-3c7e-489f-93b1-5b636fc55f2e")),
         baseURL(QLatin1String("https://api.resrobot.se/v2"))
 {
+#ifdef Q_OS_SYMBIAN
+    // Symbian doesn't support SNI - ignore hostname mismatch
+    ignoredSslErrors << QSslError::HostNameMismatch;
+#endif
+
     // Translate remarks
     hafasAttributes.insert("A1", tr("Food in first class"));
     hafasAttributes.insert("A6", tr("Business class Plus available"));
@@ -369,7 +374,7 @@ void ParserResRobot::doSearchJourney(QUrl query)
 void ParserResRobot::parseTimeTable(QNetworkReply *networkReply)
 {
     QByteArray allData = networkReply->readAll();
-    qDebug() << "Reply:\n" << allData;
+//    qDebug() << "Reply:\n" << allData;
 
     QVariantMap doc = parseJson(allData);
     if (doc.isEmpty()) {
@@ -432,7 +437,7 @@ void ParserResRobot::parseTimeTable(QNetworkReply *networkReply)
 void ParserResRobot::parseStationsByName(QNetworkReply *networkReply)
 {
     QByteArray allData = networkReply->readAll();
-    qDebug() << "Reply:\n" << allData;
+//    qDebug() << "Reply:\n" << allData;
 
     QVariantMap doc = parseJson(allData);
     if (doc.isEmpty()) {
@@ -457,7 +462,7 @@ void ParserResRobot::parseStationsByName(QNetworkReply *networkReply)
 void ParserResRobot::parseStationsByCoordinates(QNetworkReply *networkReply)
 {
     QByteArray allData = networkReply->readAll();
-    qDebug() << "Reply:\n" << allData;
+//    qDebug() << "Reply:\n" << allData;
 
     QVariantMap doc = parseJson(allData);
     if (doc.isEmpty()) {
@@ -483,7 +488,7 @@ void ParserResRobot::parseStationsByCoordinates(QNetworkReply *networkReply)
 void ParserResRobot::parseSearchJourney(QNetworkReply *networkReply)
 {
     QByteArray allData = networkReply->readAll();
-    qDebug() << "Reply:\n" << allData;
+//    qDebug() << "Reply:\n" << allData;
 
     QVariantMap doc = parseJson(allData);
     if (doc.isEmpty()) {
