@@ -270,13 +270,11 @@ void Fahrplan::resetStation(StationType type)
 
 void Fahrplan::findStationsByName(const QString &stationName)
 {
-    m_stationSearchResults->setStationsList(StationsList());
     m_parser_manager->getParser()->findStationsByName(stationName);
 }
 
 void Fahrplan::findStationsByCoordinates(qreal longitude, qreal latitude)
 {
-    m_stationSearchResults->setStationsList(StationsList());
     m_parser_manager->getParser()->findStationsByCoordinates(longitude, latitude);
 }
 
