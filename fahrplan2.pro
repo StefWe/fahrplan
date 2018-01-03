@@ -1,5 +1,5 @@
 # Define Version
-VERSION = 2.0.31
+VERSION = 2.0.33
 
 # Switch for jolla to separate harbour and openrepo version
 openrepos {
@@ -19,7 +19,7 @@ symbian {
 }
 ubuntu {
     DEFINES += FAHRPLAN_VERSION=\\\"$$VERSION\\\"
-    DEFINES += FAHRPLAN_SETTINGS_NAMESPACE=\\\"com.ubuntu.developer.mzanetti.fahrplan2\\\"
+    DEFINES += FAHRPLAN_SETTINGS_NAMESPACE=\\\"de.michael-stevens.fahrplan2\\\"
 }
 exists("/usr/include/sailfishapp/sailfishapp.h"): {
     DEFINES += FAHRPLAN_VERSION=\\\"$$VERSION\\\"
