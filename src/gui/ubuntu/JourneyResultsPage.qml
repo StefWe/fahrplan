@@ -19,6 +19,7 @@
 
 import Fahrplan 1.0
 import QtQuick 2.4
+import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
 
 Page {
@@ -76,7 +77,7 @@ Page {
 
                 Label {
                     id: journeyDate
-                    color: "Grey"
+                    color: Suru.foregroundColor
                     textSize: Label.Small
                     text: journeryDateTitleText
                     width: parent.width
@@ -87,12 +88,13 @@ Page {
             Rectangle {
                 width: parent.width
                 height: headerLabel.implicitHeight + units.gu (3)
-                color: mouseArea.pressed ? "DarkGrey" : "#F5F5F5"
+                color: Suru.backgroundColor
                 Label {
                     id: headerLabel
                     width: parent.width
                     font.bold: true
                     text: qsTr("↥ View earlier options")
+                    color: Suru.foregroundColor
                     horizontalAlignment: Text.AlignHCenter
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -110,12 +112,13 @@ Page {
         footer: Rectangle {
             width: parent.width
             height: footerLabel.implicitHeight + units.gu (3)
-            color: footerMouseArea.pressed ? "DarkGrey" : "#F5F5F5"
+            color: Suru.backgroundColor
             Label {
                 id: footerLabel
                 width: parent.width
                 font.bold: true
                 text: qsTr("↧ View later options")
+                color: Suru.foregroundColor
                 horizontalAlignment: Text.AlignHCenter
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -142,7 +145,7 @@ Page {
 
             height: detailsLayout.height + lbl_miscInfo.height - units.gu(1)
             divider.visible: false
-            color: itemNum % 2 ? "#F5F5F5" : "#ECECEC"
+            color: Suru.backgroundColor
             highlightColor: "DarkGrey"
 
             ListItemLayout {

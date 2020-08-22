@@ -19,6 +19,7 @@
 
 import QtQuick 2.4
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
 import Fahrplan 1.0
 
@@ -131,7 +132,7 @@ Page {
                      Rectangle {
                          id: stationBackground
                          anchors.fill: parent
-                         color: "#F5F5F5"
+                         color: Qt.lighter(Qt.lighter(Suru.backgroundColor))
                      }
 
                      Rectangle {
@@ -240,6 +241,7 @@ Page {
 
                         Label {
                             id: lbl_station_name
+                            color: Suru.foregroundColor
                             text: stationName
                             width: parent.width - units.gu(1)
                             wrapMode: Text.WordWrap
@@ -248,7 +250,7 @@ Page {
                         Label {
                             id: lbl_station_info
                             anchors.top: lbl_station_name.bottom
-                            color: "DarkGrey"
+                            color: Suru.foregroundColor
                             text: stationInfo
                             width: parent.width - units.gu(1)
                             wrapMode: Text.WordWrap
@@ -271,7 +273,7 @@ Page {
                     Rectangle {
                         id: trainBackground
                         anchors.fill: parent
-                        color: "#ECECEC"
+                        color: Suru.backgroundColor
                     }
 
                     Rectangle {

@@ -18,6 +18,7 @@
 ****************************************************************************/
 
 import QtQuick 2.4
+import QtQuick.Controls.Suru 2.2
 import Ubuntu.Components 1.3
 import Fahrplan 1.0
 
@@ -27,6 +28,8 @@ MainView {
     width: units.gu(40); height: units.gu(71)
     anchorToKeyboard: true
 
+    Suru.theme: theme.name === "Ubuntu.Components.Themes.SuruDark" ? Suru.Dark : Suru.Light
+    
     FahrplanBackend {
         id: fahrplanBackend
     }
